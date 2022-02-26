@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gotkx.mapper.SystemAreaMapper" >
+
+    <resultMap id="BaseResultMap" type="com.gotkx.model.SystemArea" >
+        <result column="area_code" property="areaCode" jdbcType="VARCHAR" />
+        <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+        <result column="area_type" property="areaType" jdbcType="VARCHAR"/>
+        <result column="parent_area" property="parentArea" jdbcType="VARCHAR"/>
+        <result column="zip_code" property="zipCode" jdbcType="VARCHAR"/>
+        <result column="tel_code" property="telCode" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="VARCHAR"/>
+        <result column="name_py" property="namePy" jdbcType="VARCHAR"/>
+        <result column="name_spy" property="nameSpy" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="physics_flag" property="physicsFlag" jdbcType="VARCHAR"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_user_name" property="createUserName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        area_code,
+        area_name,
+        area_type,
+        parent_area,
+        zip_code,
+        tel_code,
+        enabled,
+        name_py,
+        name_spy,
+        remark,
+        physics_flag,
+        create_user,
+        create_user_name,
+        create_time,
+        update_time
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap"  >
+       SELECT 
+       <include refid="Base_Column_List" />
+	   FROM system_area
+    </select>
+
+    <select id="getOne" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        SELECT 
+       <include refid="Base_Column_List" />
+	   FROM system_area
+	   WHERE area_name = #{areaName} and parent_area = #{cityCode}
+    </select>
+
+    <select id="queryByProvinceName" resultType="java.lang.String">
+        SELECT area_code
+       <!-- <include refid="Base_Column_List" />-->
+        FROM system_area
+        WHERE  area_type = '2' and area_name  LIKE concat(#{areaName},'%')
+    </select>
+
+    <select id="queryByCityName" resultType="java.lang.String">
+        SELECT area_code
+        FROM system_area
+        WHERE  parent_area = #{provinceCode} and area_name  LIKE concat(#{cityName},'%')
+    </select>
+
+    <!--    <insert id="insert" parameterType="com.gotkx.model.User" >-->
+<!--       INSERT INTO -->
+<!--       		users-->
+<!--       		(userName,passWord,user_sex) -->
+<!--       	VALUES-->
+<!--       		(#{userName}, #{passWord}, #{userSex})-->
+<!--    </insert>-->
+<!--    -->
+<!--    <update id="update" parameterType="com.gotkx.model.User" >-->
+<!--       UPDATE -->
+<!--       		users -->
+<!--       SET -->
+<!--       	<if test="userName != null">userName = #{userName},</if>-->
+<!--       	<if test="passWord != null">passWord = #{passWord},</if>-->
+<!--       	nick_name = #{nickName}-->
+<!--       WHERE -->
+<!--       		id = #{id}-->
+<!--    </update>-->
+<!--    -->
+<!--    <delete id="delete" parameterType="java.lang.Long" >-->
+<!--       DELETE FROM-->
+<!--       		 users -->
+<!--       WHERE -->
+<!--       		 id =#{id}-->
+<!--    </delete>-->
+
+</mapper>

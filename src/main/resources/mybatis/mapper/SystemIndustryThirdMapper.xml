@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gotkx.mapper.SystemIndustryThirdMapper" >
+
+    <resultMap id="BaseResultMap" type="com.gotkx.model.SystemIndustryThird" >
+        <result column="id" property="id" jdbcType="BIGINT" />
+        <result column="industry_id" property="industryId" jdbcType="BIGINT" />
+        <result column="industry_type" property="industryType" jdbcType="VARCHAR"/>
+        <result column="industry_name" property="industryName" jdbcType="VARCHAR"/>
+        <result column="parent_industry" property="parentIndustry" jdbcType="BIGINT"/>
+        <result column="merchant_class" property="merchantClass" jdbcType="INTEGER"/>
+        <result column="third_mcc_id" property="thirdMccId" jdbcType="VARCHAR"/>
+        <result column="hs_industry_code" property="hsIndustryCode" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="physics_flag" property="physicsFlag" jdbcType="VARCHAR"/>
+        <result column="create_user" property="createUser" jdbcType="BIGINT"/>
+        <result column="update_user" property="updateUser" jdbcType="BIGINT"/>
+        <result column="create_user_name" property="createUserName" jdbcType="VARCHAR"/>
+        <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        industry_id,
+        industry_type,
+        industry_name,
+        parent_industry,
+        merchant_class,
+        third_mcc_id,
+        hs_industry_code,
+        remark,
+        physics_flag,
+        create_user,
+        create_user_name,
+        update_user,
+        update_user_name,
+        create_time,
+        update_time
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap"  >
+       SELECT 
+       <include refid="Base_Column_List" />
+	   FROM system_industry_third
+    </select>
+
+    <select id="getByCondition" resultMap="BaseResultMap"  >
+        select
+        <include refid="Base_Column_List" />
+        from
+                (
+                        select
+                            <include refid="Base_Column_List" />
+                        from
+                                system_industry_third
+                        where
+                                industry_type = "ALLINPAY"
+                        group by
+                                industry_name ) A group by industry_id ;
+    </select>
+
+    <insert id="insert" parameterType="com.gotkx.model.SystemIndustryThird" >
+        INSERT INTO
+        system_industry_third
+        (<include refid="Base_Column_List" />)
+        VALUES
+        (
+        #{industryId}, #{industryType},#{industryName},#{parentIndustry},#{merchantClass},
+        #{thirdMccId},#{hsIndustryCode},#{remark},#{physicsFlag},#{createUser},#{createUserName},#{updateUser},#{updateUserName},
+        #{createTime},#{updateTime}
+        )
+    </insert>
+
+    <!--    <insert id="insert" parameterType="com.gotkx.model.User" >-->
+<!--       INSERT INTO -->
+<!--       		users-->
+<!--       		(userName,passWord,user_sex) -->
+<!--       	VALUES-->
+<!--       		(#{userName}, #{passWord}, #{userSex})-->
+<!--    </insert>-->
+<!--    -->
+<!--    <update id="update" parameterType="com.gotkx.model.User" >-->
+<!--       UPDATE -->
+<!--       		users -->
+<!--       SET -->
+<!--       	<if test="userName != null">userName = #{userName},</if>-->
+<!--       	<if test="passWord != null">passWord = #{passWord},</if>-->
+<!--       	nick_name = #{nickName}-->
+<!--       WHERE -->
+<!--       		id = #{id}-->
+<!--    </update>-->
+<!--    -->
+<!--    <delete id="delete" parameterType="java.lang.Long" >-->
+<!--       DELETE FROM-->
+<!--       		 users -->
+<!--       WHERE -->
+<!--       		 id =#{id}-->
+<!--    </delete>-->
+
+</mapper>

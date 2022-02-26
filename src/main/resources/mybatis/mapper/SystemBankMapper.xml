@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gotkx.mapper.SystemBankMapper" >
+
+    <resultMap id="BaseResultMap" type="com.gotkx.model.SystemBank" >
+        <result column="bank_id" property="bankId" jdbcType="BIGINT"/>
+        <result column="bank_type" property="bankType" jdbcType="TINYINT" javaType="byte"/>
+        <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+        <result column="bank_no" property="bankNo" jdbcType="VARCHAR"/>
+        <result column="bank_letter_no" property="bankLetterNo" jdbcType="VARCHAR"/>
+        <result column="bank_code" property="bankCode" jdbcType="VARCHAR"/>
+        <result column="bank_tel" property="bankTel" jdbcType="VARCHAR"/>
+        <result column="bank_letter_code" property="bankLetterCode" jdbcType="VARCHAR"/>
+        <result column="fy_bank_code" property="fyBankCode" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="physics_flag" property="physicsFlag" jdbcType="TINYINT" javaType="byte"/>
+        <result column="create_user" property="createUser" jdbcType="BIGINT"/>
+        <result column="create_user_name" property="createUserName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+        <result column="third_bank_code" property="thirdBankCode" jdbcType="VARCHAR"/>
+        <result column="hs_bank_id" property="hsBankId" jdbcType="VARCHAR"/>
+        <result column="third_type" property="thirdType" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        bank_type,
+        bank_name,
+        bank_no,
+        bank_letter_no,
+        bank_code,
+        bank_tel,
+        bank_letter_code,
+        fy_bank_code,
+        remark,
+        physics_flag,
+        create_user,
+        create_user_name,
+        create_time,
+        update_time,
+        third_bank_code,
+        hs_bank_id,
+        third_type
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap"  >
+       SELECT 
+       <include refid="Base_Column_List" />
+	   FROM system_bank
+    </select>
+
+    <select id="getByCondition" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        SELECT 
+       *
+	   FROM system_bank
+	   WHERE 1 = 1
+        <if test="bankName != null">
+            and bank_name = #{bankName}
+        </if>
+        <if test="thirdType != null">
+            and third_type = #{thirdType}
+        </if>
+        <!--bank_name = #{bankName} and third_type = #{thirdType}-->
+    </select>
+
+
+    <insert id="insert" parameterType="com.gotkx.model.SystemBank" useGeneratedKeys="true" keyProperty="bankId">
+        INSERT INTO
+        system_bank
+        (<include refid="Base_Column_List" />)
+        VALUES
+        (#{bankType}, #{bankName}, #{bankNo},#{bankLetterNo},#{bankCode},#{bankTel},
+        #{bankLetterCode},#{fyBankCode},#{remark},#{physicsFlag},#{createUser},#{createUserName},
+        #{createTime},#{updateTime},#{thirdBankCode},#{hsBankId},#{thirdType})
+    </insert>
+
+
+    <!--    <insert id="insert" parameterType="com.gotkx.model.User" >-->
+<!--       INSERT INTO -->
+<!--       		users-->
+<!--       		(userName,passWord,user_sex) -->
+<!--       	VALUES-->
+<!--       		(#{userName}, #{passWord}, #{userSex})-->
+<!--    </insert>-->
+<!--    -->
+<!--    <update id="update" parameterType="com.gotkx.model.User" >-->
+<!--       UPDATE -->
+<!--       		users -->
+<!--       SET -->
+<!--       	<if test="userName != null">userName = #{userName},</if>-->
+<!--       	<if test="passWord != null">passWord = #{passWord},</if>-->
+<!--       	nick_name = #{nickName}-->
+<!--       WHERE -->
+<!--       		id = #{id}-->
+<!--    </update>-->
+<!--    -->
+<!--    <delete id="delete" parameterType="java.lang.Long" >-->
+<!--       DELETE FROM-->
+<!--       		 users -->
+<!--       WHERE -->
+<!--       		 id =#{id}-->
+<!--    </delete>-->
+
+</mapper>

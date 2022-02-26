@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gotkx.mapper.SystemBankBranchMapper" >
+
+    <resultMap id="BaseResultMap" type="com.gotkx.model.SystemBankBranch" >
+        <result column="bank_branch_id" property="bankBranchId" jdbcType="BIGINT"/>
+        <result column="bank_branch_name" property="bankBranchName" jdbcType="VARCHAR"/>
+        <result column="bank_id" property="bankId" jdbcType="VARCHAR" />
+        <result column="contact_line" property="contactLine" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="physics_flag" property="physicsFlag" jdbcType="TINYINT"/>
+        <result column="create_user" property="createUser" jdbcType="BIGINT"/>
+        <result column="create_user_name" property="createUserName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+        <result column="enabled" property="enabled" jdbcType="TINYINT"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List" >
+        bank_branch_id,
+        bank_branch_name,
+        bank_id,
+        contact_line,
+        province,
+        city,
+        physics_flag,
+        create_user,
+        create_user_name,
+        create_time,
+        update_time,
+        enabled,
+        update_user,
+        update_user_name,
+        remark
+    </sql>
+
+
+    <select id="getAll" resultMap="BaseResultMap"  >
+       SELECT
+        <include refid="Base_Column_List" />
+	   FROM system_bank_branch_product
+    </select>
+
+
+
+
+    <insert id="insert" parameterType="com.gotkx.model.SystemBank" useGeneratedKeys="true" keyProperty="bankId">
+        INSERT INTO
+        system_bank_branch
+        (<include refid="Base_Column_List" />)
+        VALUES
+        (#{bankBranchId}, #{bankBranchName}, #{bankId},#{contactLine},#{province},#{city},
+        #{physicsFlag},#{createUser},#{createUserName},#{createTime},#{updateTime},#{enabled},
+        #{updateUser},#{createUserName},#{remark}
+        )
+    </insert>
+
+
+</mapper>
